@@ -1,14 +1,16 @@
-import jsonServer from "json-server";
-import path from "path";
-
+const jsonServer = require('json-server');
 const server = jsonServer.create();
-const router = jsonServer.router(path.join(process.cwd(), "db.json"));
+const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
 
+// Middleware
+server.use(middlewares);
+server.use(jsonServer.bodyParser);
+server.use(router);
+
+// Puerto dinámico para Render
 const PORT = process.env.PORT || 10000;
 
-server.use(middlewares);
-server.use(router);
 server.listen(PORT, () => {
-  console.log(`✅ API corriendo en el puerto ${PORT}`);
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
